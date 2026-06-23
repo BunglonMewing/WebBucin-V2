@@ -1,186 +1,563 @@
 <!DOCTYPE html>
-<html lang="en">
-  
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>I Love You</title>
-  <meta name="description" content="Semangat beraktifitas ya sayang">
-  <meta name="author" content="Wafa Rifqi Anafin">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/efekteks.css">
-  <link rel="stylesheet" href="css/responsif.css">
-  <link rel="stylesheet" href="css/buciners.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+  <title>I Love You 💕</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --m3-primary:       #C2185B;
+      --m3-primary-cont:  #FCE4EC;
+      --m3-secondary:     #AD1457;
+      --m3-tertiary:      #F48FB1;
+      --m3-surface:       #FFF8F9;
+      --m3-surface-var:   #FFF0F3;
+      --m3-on-surface:    #3B1A22;
+      --m3-outline:       #E8B4C3;
+      --m3-shadow:        rgba(194, 24, 91, 0.18);
+      --m3-radius-xl:     28px;
+      --m3-radius-l:      16px;
+      --m3-radius-m:      12px;
+      --m3-elevation-1:   0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.08);
+      --m3-elevation-2:   0 3px 6px rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.08);
+      --m3-elevation-3:   0 8px 24px rgba(194,24,91,.15), 0 2px 8px rgba(0,0,0,.10);
+    }
+
+    html, body {
+      height: 100%; width: 100%;
+      overflow: hidden;
+      background: linear-gradient(135deg, #FF80AB 0%, #F48FB1 30%, #CE93D8 60%, #B39DDB 100%);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ===== FLOATING HEARTS DECORATION ===== */
+    .hearts-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .heart-float {
+      position: absolute;
+      font-size: 1.4rem;
+      opacity: 0;
+      animation: floatUp var(--dur, 8s) var(--delay, 0s) infinite ease-in;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh) scale(0.6) rotate(var(--rot,0deg)); opacity: 0; }
+      10%  { opacity: 0.5; }
+      80%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) scale(1.1) rotate(calc(var(--rot,0deg) + 20deg)); opacity: 0; }
+    }
+
+    /* ===== GLITTER PARTICLES ===== */
+    .glitter-wrap {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .glitter {
+      position: absolute;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: white;
+      opacity: 0;
+      animation: glitter var(--g-dur, 3s) var(--g-delay, 0s) infinite ease-in-out;
+    }
+    @keyframes glitter {
+      0%,100% { opacity: 0; transform: scale(0); }
+      50%      { opacity: 0.9; transform: scale(1); }
+    }
+
+    /* ===== SPLASH SCREEN ===== */
+    #splash {
+      position: fixed; inset: 0; z-index: 100;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: linear-gradient(160deg, #FCE4EC 0%, #F8BBD9 40%, #E1BEE7 100%);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    #splash.hidden { opacity: 0; transform: scale(1.05); pointer-events: none; }
+
+    .splash-icon {
+      font-size: 5rem;
+      animation: heartbeat 1.4s ease-in-out infinite;
+      filter: drop-shadow(0 4px 16px rgba(194,24,91,.4));
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      14%     { transform: scale(1.18); }
+      28%     { transform: scale(1); }
+      42%     { transform: scale(1.12); }
+      56%     { transform: scale(1); }
+    }
+
+    .splash-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      color: var(--m3-primary);
+      margin-top: 16px;
+      font-style: italic;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    .splash-sub {
+      font-size: 0.95rem;
+      color: #7B1FA2;
+      margin-top: 6px;
+      opacity: 0.8;
+      font-weight: 300;
+    }
+
+    .splash-btn {
+      margin-top: 40px;
+      padding: 16px 48px;
+      border: none; border-radius: 100px;
+      background: linear-gradient(135deg, #C2185B, #E91E8C);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(194,24,91,.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .splash-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(194,24,91,.5); }
+    .splash-btn:active { transform: scale(0.97); }
+
+    /* ===== MAIN APP ===== */
+    #app {
+      position: fixed; inset: 0; z-index: 10;
+      display: none; flex-direction: column;
+    }
+    #app.visible { display: flex; }
+
+    /* ===== NAV BAR (M3 Bottom Nav style at top) ===== */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px;
+      height: 64px;
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      flex-shrink: 0;
+      position: relative; z-index: 20;
+    }
+    .topbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-style: italic;
+      color: white;
+      text-shadow: 0 1px 8px rgba(194,24,91,.4);
+    }
+    .topbar-heart { font-size: 1.5rem; animation: heartbeat 1.4s ease-in-out infinite; }
+
+    /* ===== PAGE SLIDER ===== */
+    .slider-wrap {
+      flex: 1; overflow: hidden; position: relative;
+    }
+    .slider {
+      display: flex; height: 100%;
+      transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ===== PAGE CARD ===== */
+    .page {
+      min-width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--m3-radius-xl);
+      padding: 32px 28px;
+      width: 100%; max-width: 440px;
+      text-align: center;
+      box-shadow: var(--m3-elevation-3);
+      position: relative; overflow: hidden;
+      animation: cardIn 0.6s cubic-bezier(.4,0,.2,1) both;
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.96); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* Colored stripe at top of each card */
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 5px;
+      background: var(--card-accent, linear-gradient(90deg, #C2185B, #F48FB1));
+      border-radius: var(--m3-radius-xl) var(--m3-radius-xl) 0 0;
+    }
+
+    .card-emoji {
+      font-size: 3.5rem;
+      margin-bottom: 8px;
+      display: block;
+      filter: drop-shadow(0 4px 8px rgba(194,24,91,.2));
+      animation: bounce 2.5s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+
+    .card-label {
+      display: inline-block;
+      background: var(--m3-primary-cont);
+      color: var(--m3-primary);
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 4px 14px; border-radius: 100px;
+      margin-bottom: 16px;
+    }
+
+    .card-image-wrap {
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 20px;
+      border: 4px solid white;
+      box-shadow: 0 4px 20px rgba(194,24,91,.25);
+      background: linear-gradient(135deg, #FCE4EC, #E1BEE7);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+    }
+    .card-image-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    .card-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      color: var(--m3-on-surface);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .card-heading em { color: var(--m3-primary); font-style: italic; }
+
+    .card-body {
+      font-size: 0.9rem; line-height: 1.7;
+      color: #6D3A4A;
+      font-weight: 300;
+    }
+
+    /* ===== CLOCK CARD (Page 4) ===== */
+    .clock-display {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      color: var(--m3-primary);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 12px rgba(194,24,91,.2);
+    }
+    .clock-date {
+      font-size: 0.85rem; color: #AD5472;
+      margin-top: 4px; margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+    .greeting-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #FCE4EC, #F8BBD9);
+      border: 1px solid var(--m3-outline);
+      border-radius: 16px;
+      padding: 12px 20px;
+      margin: 16px 0;
+      font-size: 0.88rem; color: var(--m3-on-surface);
+      line-height: 1.5;
+    }
+
+    /* ===== BOTTOM NAV ===== */
+    .bottom-nav {
+      display: flex; height: 72px;
+      background: rgba(255,255,255,0.3);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255,255,255,0.3);
+      flex-shrink: 0; position: relative; z-index: 20;
+    }
+    .nav-item {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 3px; cursor: pointer;
+      transition: transform 0.15s;
+      border: none; background: transparent; padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-item:active { transform: scale(0.92); }
+    .nav-item.active .nav-icon-wrap {
+      background: rgba(255,255,255,0.5);
+      border-radius: 100px; width: 60px; height: 28px;
+    }
+    .nav-icon-wrap {
+      width: 60px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 100px;
+      transition: background 0.2s;
+    }
+    .nav-icon { font-size: 1.3rem; }
+    .nav-label {
+      font-size: 0.65rem; font-weight: 500;
+      color: white; letter-spacing: 0.3px;
+      opacity: 0.8;
+    }
+    .nav-item.active .nav-label { opacity: 1; font-weight: 600; }
+
+    /* ===== ROSE PETALS ===== */
+    .petal {
+      position: fixed;
+      font-size: 1.2rem;
+      pointer-events: none;
+      opacity: 0;
+      animation: petalFall var(--p-dur, 6s) var(--p-delay, 0s) infinite linear;
+      z-index: 0;
+    }
+    @keyframes petalFall {
+      0%   { transform: translateX(0) translateY(-5vh) rotate(0); opacity: 0; }
+      5%   { opacity: 0.7; }
+      95%  { opacity: 0.5; }
+      100% { transform: translateX(var(--p-drift, 40px)) translateY(105vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ===== SPARKLE RING ===== */
+    .sparkle-ring {
+      position: absolute; inset: -8px;
+      border-radius: 50%;
+      border: 2px dashed rgba(194,24,91,.2);
+      animation: spin 10s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      .card { padding: 24px 18px; }
+      .card-image-wrap { width: 110px; height: 110px; }
+    }
+  </style>
 </head>
-
 <body>
-  <!--Author    : Wafa Rifki Anafin-->
-  <!--Facebook  : https://facebook.com/wafarifkianafin-->
-  <!--Instagram : https://instagram.com/wafarifki_-->
-  <!--Website   : https://wafarifki.tk-->
-  <div class="kontener2" id="kontener2">
-    <h1>Hai Sayang</h1>
-    <button class="tombol" id="tombol">Mulai Sekarang</button>
+
+<!-- Floating Hearts Background -->
+<div class="hearts-bg" id="heartsBg"></div>
+<!-- Glitter Particles -->
+<div class="glitter-wrap" id="glitterWrap"></div>
+
+<!-- ===== SPLASH ===== -->
+<div id="splash">
+  <div class="splash-icon">💗</div>
+  <div class="splash-title">Hai Sayang~</div>
+  <div class="splash-sub">Ada pesan spesial untukmu ✨</div>
+  <button class="splash-btn" id="splashBtn">Buka Sekarang 💌</button>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="app">
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-title">💕 For You</div>
+    <div class="topbar-heart">🌸</div>
   </div>
 
-  <div class="kontener" id="kontener">
-    <div class="dalemnya_kontener">
-      <h1 class="judul_halaman">I Love You</h1>
-      <a class="tombol_menu" onclick="klikMenu()"></a>
-      <section class="halaman1 dalemnya_halaman" onclick="PindahKeHalaman(0)">
-        <h1 class="judul_halaman">Aku</h1>
-        <br>
-        <img src="gambar/gambar1.jpg" alt="Web Bucin Html, Css, Js" class="gambar">
-        <br>
-        <div class="ucapan1">
-          <p class="isiucapan1">Aku butuh kamu seperti jantung membutuhkan detik. Aku menginginkanmu seperti gurun pasir
-            yang mengharapkan hujan.</p>
+  <!-- Slider -->
+  <div class="slider-wrap">
+    <div class="slider" id="slider">
+
+      <!-- PAGE 1: Aku -->
+      <div class="page">
+        <div class="card" style="--card-accent: linear-gradient(90deg, #C2185B, #E91E8C);">
+          <span class="card-emoji">🌹</span>
+          <div class="card-label">Untukmu</div>
+          <div class="card-image-wrap">
+            <img src="gambar/gambar1.jpg" alt="Foto 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <span style="display:none;font-size:3.5rem">🌹</span>
+          </div>
+          <h2 class="card-heading">Kamu <em>Segalanya</em></h2>
+          <p class="card-body">Aku butuh kamu seperti jantung membutuhkan detak. Kamu bukan hanya bagian dari hidupku — kamu alasan kenapa aku tersenyum setiap hari. 💓</p>
         </div>
-      </section>
-      <section class="halaman2 dalemnya_halaman" onclick="PindahKeHalaman(1)">
-        <h1 class="judul_halaman">Sayang</h1>
-        <br>
-        <img src="gambar/gambar2.jpg" alt="Web Bucin Html, Css, Js" class="gambar">
-        <br>
-        <div class="ucapan2">
-          <p class="isiucapan2">Aku Menyayangimu bukan karena siapa dirimu melainkan apa yang terjadi saat aku
-            bersamamu.
+      </div>
+
+      <!-- PAGE 2: Sayang -->
+      <div class="page">
+        <div class="card" style="--card-accent: linear-gradient(90deg, #7B1FA2, #CE93D8);">
+          <span class="card-emoji" style="animation-delay:.3s">💜</span>
+          <div class="card-label">Rasa Ini</div>
+          <div class="card-image-wrap" style="border-color:#E1BEE7">
+            <img src="gambar/gambar2.jpg" alt="Foto 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <span style="display:none;font-size:3.5rem">💜</span>
+          </div>
+          <h2 class="card-heading">Bukan <em>Kebetulan</em></h2>
+          <p class="card-body">Aku menyayangimu bukan karena siapa dirimu, melainkan apa yang terjadi di dalam hatiku saat aku bersamamu. Perasaan ini nyata. 🌸</p>
+        </div>
+      </div>
+
+      <!-- PAGE 3: Kamu -->
+      <div class="page">
+        <div class="card" style="--card-accent: linear-gradient(90deg, #E91E8C, #FF80AB);">
+          <span class="card-emoji" style="animation-delay:.6s">🌺</span>
+          <div class="card-label">Selalu</div>
+          <div class="card-image-wrap" style="border-color:#F8BBD9">
+            <img src="gambar/gambar3.jpg" alt="Foto 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <span style="display:none;font-size:3.5rem">🌺</span>
+          </div>
+          <h2 class="card-heading">Di Setiap <em>Mimpimu</em></h2>
+          <p class="card-body">Aku selalu berharap hadir di setiap mimpi indahmu. Dan saat kamu terbangun, ingatlah — aku selalu di sini merindukanmu. 💝</p>
+        </div>
+      </div>
+
+      <!-- PAGE 4: Clock / Greeting -->
+      <div class="page">
+        <div class="card" style="--card-accent: linear-gradient(90deg, #AD1457, #C2185B);">
+          <span class="card-emoji" style="animation-delay:.9s">⭐</span>
+          <div class="card-label" id="namaSayang">Anisa Aulia</div>
+
+          <div class="clock-display" id="clock">--:--</div>
+          <div class="clock-date" id="dateDisplay">—</div>
+
+          <div class="greeting-badge" id="greeting">
+            <span>💌</span>
+            <span id="greetText">Loading...</span>
+          </div>
+
+          <p class="card-body" style="margin-top:8px">
+            Setiap detik terasa lebih indah ketika kamu ada. <br>
+            <em style="color:var(--m3-primary)">i love you sayang 💗</em>
           </p>
         </div>
-      </section>
-      <section class="halaman3 dalemnya_halaman" onclick="PindahKeHalaman(2)">
-        <h1 class="judul_halaman">Kamu</h1>
-        <br>
-        <img src="gambar/gambar3.jpg" alt="Web Bucin Html, Css, Js" class="gambar">
-        <br>
-        <div class="ucapan3">
-          <p class="isiucapan3">Aku selalu berharap untuk dapat hadir di setiap mimpi indahmu. Kemudian, aku akan
-            mengatakan bahwa aku akan selalu merindukanmu.</p>
-        </div>
-      </section>
-      <section class="halaman4 dalemnya_halaman" onclick="PindahKeHalaman(3)">
-        <h1 class="judul_halaman">Anisa Aulia</h1>
-        <br>
-        <h1 id="waktu"></h1>
-        <script type="text/javascript">
-          document.write("<center>");
-          var hari = new Date();
-          var jam = hari.getHours();
-          if (jam >= 0 && jam < 12) {
-            document.write(
-              "<h1 class='ucapan'>Selamat Pagi Sayang!</h1><p class='isiucapan'>Saat aku membuka mata setiap harinya, yang ingin aku lihat hanya kamu. i love you sayang <3<p>"
-            );
-          } else if (jam == 12) {
-            document.write(
-              "<h1 class='ucapan'>Selamat Siang Sayang!</h1><p class='isiucapan'>Jangan Lupa Makan Yaa Sayang. i love you sayang <3<p>"
-            );
-          } else if (jam >= 12 && jam <= 17) {
-            document.write(
-              "<h1 class='ucapan'>Selamat Siang Menjelang Sore Sayang!</h1><p class='isiucapan'>Jangan Lupa Mandi + Jam demi jam telah kamu lalui dengan baik, persiapkan diri kamu untuk aktifitas yang akan datang ya sayang. i love you sayang <3<p>"
-            );
-          } else {
-            document.write(
-              "<h1 class='ucapan'>Selamat Malam Sayang!</h1><p class='isiucapan'>Setelah seharian beraktifitas, kini telah tiba saatnya untuk beristirahat, rebahkan dirimu di kasur kesayanganmu. kabari aku disetiap kegiatanmu. i love you sayang <3<p>"
-            );
-          }
-          document.write("</center>");
-        </script>
-      </section>
-    </div>
+      </div>
+
+    </div><!-- /slider -->
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"
-    integrity="sha512-synHs+rLg2WDVE9U0oHVJURDCiqft60GcWOW7tXySy8oIr0Hjl3K9gv7Bq/gSj4NDVpc5vmsNkMGGJ6t2VpUMA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdn.rawgit.com/bungfrangki/efeksalju/2a7805c7/efek-salju.js" type="text/javascript"></script>
-  <script src="js/script.js"></script>
-  <script>
-    document.getElementById("waktu").innerHTML = formatAMPM();
+  <!-- Bottom Nav (M3 style) -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="goTo(0)" id="nav0">
+      <div class="nav-icon-wrap"><span class="nav-icon">🌹</span></div>
+      <span class="nav-label">Aku</span>
+    </button>
+    <button class="nav-item" onclick="goTo(1)" id="nav1">
+      <div class="nav-icon-wrap"><span class="nav-icon">💜</span></div>
+      <span class="nav-label">Sayang</span>
+    </button>
+    <button class="nav-item" onclick="goTo(2)" id="nav2">
+      <div class="nav-icon-wrap"><span class="nav-icon">🌺</span></div>
+      <span class="nav-label">Kamu</span>
+    </button>
+    <button class="nav-item" onclick="goTo(3)" id="nav3">
+      <div class="nav-icon-wrap"><span class="nav-icon">⭐</span></div>
+      <span class="nav-label">Waktu</span>
+    </button>
+  </nav>
+</div>
 
-    function formatAMPM() {
-      var waktu = new Date(),
-        menit = waktu.getMinutes().toString().length == 1 ? '0' + waktu.getMinutes() : waktu.getMinutes(),
-        jam = waktu.getHours().toString().length == 1 ? '0' + waktu.getHours() : waktu.getHours(),
-        ampm = waktu.getHours() >= 12 ? 'PM' : 'AM',
-        bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober',
-          'November', 'Desember'
-        ],
-        hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-      return '<h1 class="ml1"><span class="text-wrapper"><span class="line line1"></span><span class="letters">' + hari[
-          waktu.getDay()] +
-        ', ' + waktu.getDate() + ' ' + bulan[waktu.getMonth()] +
-        ' ' + waktu.getFullYear() + '</span><span class="line line2"></span></span></h1><p class="ml2"> ' + jam + ':' +
-        menit + ' ' + ampm + ' </p>';
+<script>
+  /* ===== FLOATING HEARTS ===== */
+  const heartsBg = document.getElementById('heartsBg');
+  const heartEmojis = ['💕','💖','💗','💓','🌸','✨','💝','🌷'];
+  for (let i = 0; i < 18; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = heartEmojis[i % heartEmojis.length];
+    h.style.cssText = `
+      left: ${Math.random()*100}%;
+      --dur: ${6 + Math.random()*7}s;
+      --delay: ${Math.random()*8}s;
+      --rot: ${Math.random()*30 - 15}deg;
+      font-size: ${0.8 + Math.random()*1.2}rem;
+    `;
+    heartsBg.appendChild(h);
+  }
 
-    }
-  </script>
-  <script>
-    $(document).ready(function () {
-      var audio = new Audio('audio/audio.mp3');
-      $("#tombol").click(function () {
-        $("#kontener2").fadeOut();
-        $("#kontener").fadeIn("4000");
-        audio.play();
-      });
+  /* ===== GLITTER ===== */
+  const glitterWrap = document.getElementById('glitterWrap');
+  for (let i = 0; i < 30; i++) {
+    const g = document.createElement('div');
+    g.className = 'glitter';
+    g.style.cssText = `
+      left: ${Math.random()*100}%;
+      top: ${Math.random()*100}%;
+      --g-dur: ${2 + Math.random()*3}s;
+      --g-delay: ${Math.random()*4}s;
+    `;
+    glitterWrap.appendChild(g);
+  }
+
+  /* ===== ROSE PETALS ===== */
+  const petalEmojis = ['🌸','🌺','🌷','🍀'];
+  for (let i = 0; i < 10; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = petalEmojis[i % petalEmojis.length];
+    p.style.cssText = `
+      left: ${Math.random()*100}%;
+      --p-dur: ${5 + Math.random()*5}s;
+      --p-delay: ${Math.random()*7}s;
+      --p-drift: ${Math.random()*80 - 40}px;
+    `;
+    document.body.appendChild(p);
+  }
+
+  /* ===== SPLASH ===== */
+  document.getElementById('splashBtn').addEventListener('click', () => {
+    const splash = document.getElementById('splash');
+    splash.classList.add('hidden');
+    setTimeout(() => {
+      splash.style.display = 'none';
+      const app = document.getElementById('app');
+      app.classList.add('visible');
+    }, 800);
+    try { new Audio('audio/audio.mp3').play(); } catch(e) {}
+  });
+
+  /* ===== SLIDER ===== */
+  let currentPage = 0;
+  const slider = document.getElementById('slider');
+
+  function goTo(idx) {
+    currentPage = idx;
+    slider.style.transform = `translateX(-${idx * 100}%)`;
+    document.querySelectorAll('.nav-item').forEach((el, i) => {
+      el.classList.toggle('active', i === idx);
     });
-  </script>
-  <script>
-    var textWrapper = document.querySelector('.ml1 .letters');
-    textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+  }
 
-    anime.timeline({
-        loop: false
-      })
-      .add({
-        targets: '.ml1 .letter',
-        scale: [0.3, 1],
-        opacity: [0, 1],
-        translateZ: 0,
-        easing: "easeOutExpo",
-        duration: 600,
-        delay: (el, i) => 70 * (i + 1)
-      }).add({
-        targets: '.ml1 .line',
-        scaleX: [0, 1],
-        opacity: [0.5, 1],
-        easing: "easeOutExpo",
-        duration: 700,
-        offset: '-=875',
-        delay: (el, i, l) => 80 * (l - i)
-      }).add({
-        targets: '.ml1',
-        opacity: 1,
-        duration: 1000,
-        easing: "easeOutExpo",
-        delay: 1000
-      });
-  </script>
-  <script>
-    var textWrapper = document.querySelector('.ml2');
-    textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+  // Touch/swipe support
+  let startX = 0;
+  const wrap = document.querySelector('.slider-wrap');
+  wrap.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  wrap.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 50) goTo(Math.max(0, Math.min(3, currentPage + (dx < 0 ? 1 : -1))));
+  });
 
-    anime.timeline({
-        loop: false
-      })
-      .add({
-        targets: '.ml2 .letter',
-        scale: [4, 1],
-        opacity: [0, 1],
-        translateZ: 0,
-        easing: "easeOutExpo",
-        duration: 950,
-        delay: 1400
-      }).add({
-        targets: '.ml2',
-        opacity: 1,
-        duration: 1000,
-        easing: "easeOutExpo",
-        delay: 1000
-      });
-  </script>
+  /* ===== CLOCK ===== */
+  const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const HARI  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+
+  function updateClock() {
+    const now = new Date();
+    const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const hh = String(h).padStart(2,'0');
+    const mm = String(m).padStart(2,'0');
+    const ss = String(s).padStart(2,'0');
+    document.getElementById('clock').textContent = `${hh}:${mm}:${ss}`;
+    document.getElementById('dateDisplay').textContent =
+      `${HARI[now.getDay()]}, ${now.getDate()} ${BULAN[now.getMonth()]} ${now.getFullYear()}`;
+
+    let greet = '';
+    if (h >= 0 && h < 12)       greet = '☀️ Selamat Pagi, Sayang! Mulai hari ini dengan senyuman manismu ya~';
+    else if (h === 12)           greet = '🌤️ Selamat Siang! Jangan lupa makan ya, Sayang 🍱';
+    else if (h > 12 && h <= 17) greet = '🌸 Siang menjelang sore nih~ Jaga semangat ya, Sayang 💪';
+    else                         greet = '🌙 Selamat Malam, Sayang! Rebahkan dirimu, kamu sudah luar biasa hari ini ✨';
+    document.getElementById('greetText').textContent = greet;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
 </body>
-
 </html>
